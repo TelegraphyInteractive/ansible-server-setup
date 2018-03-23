@@ -1,0 +1,3 @@
+[submodule "roles/lock-root"]
+	path = roles/lock-root
+	url = git@github.com:TelegraphyInteractive/ansible-role-lock-root.git

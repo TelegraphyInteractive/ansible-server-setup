@@ -1,0 +1,18 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+  - include_vars: "vars/main.yml"
+  - name: check for root access
+    ## This check uses local_action, because ssh as root, if it doesn't work,
+    ## causes UNREACHABLE, which is fatal to ansible
+    local_action: "command ssh -q -o BatchMode=yes -o ConnectTimeout=3 root@{{ inventory_hostname }} 'echo ok'"
+    changed_when: false
+    register: root_accessible
+    ignore_errors: yes
+  - name: lock-out root
+    include_role:
+      name: lock-root
+    vars:
+      ansible_user: root
+    when: root_accessible | success
