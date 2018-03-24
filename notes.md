@@ -209,6 +209,9 @@ executing a play or role. To turn this off for designated hosts:
   gather_facts: no
 ```
 
+And then to gather them manually later, in a play, just run the `setup`
+module as a task.
+
 ## Using when
 
 ```

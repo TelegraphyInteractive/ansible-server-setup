@@ -2,6 +2,7 @@
 - hosts: all
   gather_facts: no
   tasks:
+  - include_vars: "vars/vault.yml"
   - include_vars: "vars/main.yml"
   - name: check for root access
     ## This check uses local_action, because ssh as root, if it doesn't work,
@@ -14,5 +15,7 @@
     include_role:
       name: lock-root
     vars:
+      # have the role use the root login to set up the devops_ssh_user
       ansible_user: root
+      admin_user: "{{ devops_ssh_user }}"
     when: root_accessible | success
