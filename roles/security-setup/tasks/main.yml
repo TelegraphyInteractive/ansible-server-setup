@@ -1,8 +1,28 @@
 ---
+# all of these commands require sudo
+# caller must set `become: true`
+
 - name: Update APT package cache
   apt:
     update_cache: yes
     cache_valid_time: 3600
+
 - name: Upgrade APT to the latest packages
   apt:
     upgrade: safe
+
+- name: Create iptables directory in /etc
+  shell: mkdir -p /etc/iptables
+  args:
+    creates: /etc/iptables
+
+- name: Install iptables rule set
+  template:
+    src: ../templates/iptables.rules.j2
+    dest: /etc/iptables/rules.v4
+    mode: 0600
+    validate: iptables-restore %s
+
+- name: Install iptables-persistent
+  apt:
+    name: iptables-persistent
