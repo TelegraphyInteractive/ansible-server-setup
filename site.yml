@@ -20,10 +20,22 @@
       admin_user: "{{ devops_ssh_user }}"
     when: root_accessible | success
   - name: set up security
+    become: true
     include_role:
       name: security-setup
     vars:
       ansible_user: "{{ devops_ssh_user }}"
       ansible_ssh_port: "{{ devops_ssh_port }}"
-      #become_user: root
-      become: yes
+  - name: install packages
+    become: true
+    include_role:
+      name: install-packages
+    vars:
+      ansible_user: "{{ devops_ssh_user }}"
+      ansible_ssh_port: "{{ devops_ssh_port }}"
+  - name: install ruby
+    include_role:
+      name: ruby-env
+    vars:
+      ansible_user: "{{ devops_ssh_user }}"
+      ansible_ssh_port: "{{ devops_ssh_port }}"

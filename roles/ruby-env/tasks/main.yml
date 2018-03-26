@@ -1,0 +1,49 @@
+---
+- name: Install rbenv
+  git:
+    clone: yes
+    depth: 1
+    repo: 'https://github.com/rbenv/rbenv.git'
+    dest: ~/.rbenv
+
+- name: Create bash_profile
+  blockinfile:
+    content: |
+      [[ -f .profile ]] && source .profile
+      [[ -f .bashrc ]] && source .bashrc
+    marker: '# {mark} PROFILE configured by Ansible'
+    create: yes
+    path: ~/.bash_profile
+
+- name: Add rbenv to path
+  blockinfile:
+    content: |
+      export PATH="/home/dclo/.rbenv/bin:${PATH}"
+      eval "$(rbenv init -)"
+    marker: '# {mark} RBENV configured by Ansible'
+    path: ~/.bashrc
+
+- name: Create plugins directory for rbenv
+  shell: mkdir ~/.rbenv/plugins
+  args:
+    creates: ~/.rbenv/plugins
+
+- name: Install ruby-build
+  git:
+    clone: yes
+    depth: 1
+    repo: 'https://github.com/rbenv/ruby-build.git'
+    dest: ~/.rbenv/plugins/ruby-build
+
+- name: Write ruby install script
+  template:
+    src: ../templates/setup.rbenv.sh.j2
+    dest: ~/setup.rbenv.sh
+    mode: 0775
+
+- name: Install ruby and bundler
+  shell: "~/setup.rbenv.sh {{ ruby_version }}"
+  args:
+    creates: ~/.setup.rbenv.timestamp
+    chdir: ~
+
