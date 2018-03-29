@@ -1,0 +1,51 @@
+---
+- name: Install dirmngr
+  apt:
+    name: dirmngr
+    state: present
+    cache_valid_time: "{{ apt_cache_time }}"
+
+- name: Install gnupg
+  apt:
+    name: gnupg
+    state: present
+    cache_valid_time: "{{ apt_cache_time }}"
+
+- name: Install passenger apt key
+  apt_key:
+    keyserver: hkp://keyserver.ubuntu.com:80
+    id: 561F9B9CAC40B2F7
+
+- name: Install apt-transport-https
+  apt:
+    name: apt-transport-https
+    state: present
+    cache_valid_time: "{{ apt_cache_time }}"
+  notify: reload nginx
+
+- name: Install ca-certificates
+  apt:
+    name: ca-certificates
+    state: present
+    cache_valid_time: "{{ apt_cache_time }}"
+  notify: reload nginx
+
+- name: Add Passenger Debian source
+  copy:
+    content: 'deb https://oss-binaries.phusionpassenger.com/apt/passenger stretch main'
+    dest: /etc/apt/sources.list.d/passenger.list
+
+- name: Install Passenger
+  apt:
+    name: libnginx-mod-http-passenger
+    state: present
+    update_cache: yes
+  notify: reload nginx
+
+- name: Enable Passenger mod
+  file:
+    state: link
+    src: /usr/share/nginx/modules-available/mod-http-passenger.load
+    dest: /etc/nginx/modules-enabled/50-mod-http-passenger.conf
+  notify: reload nginx
+
