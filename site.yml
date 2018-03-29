@@ -18,24 +18,29 @@
       # have the role use the root login to set up the devops_ssh_user
       ansible_user: root
       admin_user: "{{ devops_ssh_user }}"
+      ansible_ssh_port: 22
     when: root_accessible | success
-  - name: set up security
-    become: true
-    include_role:
-      name: security-setup
+  - name: setup with ansible_user
     vars:
       ansible_user: "{{ devops_ssh_user }}"
       ansible_ssh_port: "{{ devops_ssh_port }}"
-  - name: install packages
-    become: true
-    include_role:
-      name: install-packages
-    vars:
-      ansible_user: "{{ devops_ssh_user }}"
-      ansible_ssh_port: "{{ devops_ssh_port }}"
-  - name: install ruby
-    include_role:
-      name: ruby-env
-    vars:
-      ansible_user: "{{ devops_ssh_user }}"
-      ansible_ssh_port: "{{ devops_ssh_port }}"
+    block:
+      - name: set up security
+        become: true
+        include_role:
+          name: security-setup
+      - name: install packages
+        become: true
+        include_role:
+          name: install-packages
+      - name: install ruby
+        include_role:
+          name: ruby-env
+      - name: install nginx
+        become: yes
+        include_role:
+          name: nginx
+      - name: install passenger
+        become: yes
+        include_role:
+          name: passenger
