@@ -4,3 +4,6 @@
 [submodule "roles/nginx"]
 	path = roles/nginx
 	url = git@github.com:TelegraphyInteractive/ansible-role-nginx.git
+[submodule "roles/mysql"]
+	path = roles/mysql
+	url = git@github.com:TelegraphyInteractive/ansible-role-mysql.git
