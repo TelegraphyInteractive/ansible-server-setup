@@ -1,4 +1,12 @@
 ---
+  # initial root password whose login will be disabled
+  devops_root_password: "{{ vault_root_password }}"
+
+  # locked down ssh user, port
   devops_ssh_user: "{{ vault_devops_ssh_user }}"
   devops_ssh_port: "{{ vault_devops_ssh_port }}"
-  devops_root_password: "{{ vault_root_password }}"
+
+  # These for the mysql role. See the doc's for that
+  mysql_root_password: "{{ vault_mysql_root_password }}"
+  mysql_databases: "{{ vault_mysql_databases }}"
+  mysql_users: "{{ vault_mysql_users }}"

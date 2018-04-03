@@ -25,6 +25,8 @@
       ansible_user: "{{ devops_ssh_user }}"
       ansible_ssh_port: "{{ devops_ssh_port }}"
     block:
+      - name: do gather_facts
+        setup:
       - name: set up security
         become: true
         include_role:
@@ -44,3 +46,7 @@
         become: yes
         include_role:
           name: passenger
+      - name: install mysql
+        become: yes
+        include_role:
+          name: mysql
