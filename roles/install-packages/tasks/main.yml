@@ -2,63 +2,22 @@
 # all of these commands require sudo
 # caller must set `become: true`
 
-- name: Install git-core
+- name: Install essential packages
   apt:
-    name: git-core
-
-- name: Install build-essential
-  apt:
-    name: build-essential
-
-- name: Install openssl
-  apt:
-    name: openssl
-
-- name: Install curl
-  apt:
-    name: curl
-
-- name: Install libssl-dev
-  apt:
-    name: libssl-dev
-
-- name: Install libyaml-dev
-  apt:
-    name: libyaml-dev
-
-- name: Install libxml2-dev
-  apt:
-    name: libxml2-dev
-
-- name: Install libxslt-dev
-  apt:
-    name: libxslt-dev
-
-- name: Install autoconf
-  apt:
-    name: autoconf
-
-- name: Install automake
-  apt:
-    name: automake
-
-- name: Install libtool
-  apt:
-    name: libtool
-
-- name: Install bison
-  apt:
-    name: bison
-
-- name: Install libreadline-dev
-  apt:
-    name: libreadline-dev
-
-- name: Install zlib1g-dev
-  apt:
-    name: zlib1g-dev
-
-- name: Install imagemagick
-  apt:
-    name: imagemagick
+    name:
+      - git-core
+      - build-essential
+      - openssl
+      - curl
+      - libssl-dev
+      - libyaml-dev
+      - libxml2-dev
+      - libxslt-dev
+      - autoconf
+      - automake
+      - libtool
+      - bison
+      - libreadline-dev
+      - zlib1g-dev
+      - imagemagick
 
