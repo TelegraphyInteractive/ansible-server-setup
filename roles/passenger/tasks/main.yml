@@ -49,3 +49,9 @@
     dest: /etc/nginx/modules-enabled/50-mod-http-passenger.conf
   notify: reload nginx
 
+- name: Direct passenger to installed ruby
+  lineinfile:
+    path: /etc/nginx/conf.d/mod-http-passenger.conf
+    line: "passenger_ruby /home/{{ ansible_user }}/.rbenv/shims/ruby;"
+    regexp: "passenger_ruby"
+  notify: reload nginx
