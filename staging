@@ -1,5 +1,5 @@
 [webservers]
-brisa.staging
+staging.brisa.uy
 
 [dbservers]
-brisa.staging
+staging.brisa.uy

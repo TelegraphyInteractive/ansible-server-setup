@@ -1,0 +1,27 @@
+- name: install certbot
+  apt:
+    pkg: python-certbot-nginx
+
+- name: stop nginx server
+  service:
+    name: nginx
+    state: stopped
+
+- name: retrieve cert
+  shell:
+    cmd: certbot certonly --authenticator standalone -n -d "{{ inventory_hostname }}"
+
+- name: write certificate locations in configuration
+  blockinfile:
+    dest: "/etc/nginx/sites-available/{{ inventory_hostname }}.conf"
+    marker: "# {mark} ANSIBLE MANAGED SSH CONFIG"
+    insertafter: "listen 443;"
+    content: |
+      ssl on;
+      ssl_certificate     "/etc/letsencrypt/live/{{ inventory_hostname }}/fullchain.pem";
+      ssl_certificate_key "/etc/letsencrypt/keys/0000_key-certbot.pem";
+
+- name: start nginx server
+  service:
+    name: nginx
+    state: started
