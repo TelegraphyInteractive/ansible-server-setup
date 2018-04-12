@@ -10,3 +10,6 @@
   mysql_root_password: "{{ vault_mysql_root_password }}"
   mysql_databases: "{{ vault_mysql_databases }}"
   mysql_users: "{{ vault_mysql_users }}"
+
+  # for rails
+  rails_master_key: "{{ vault_rails_master_key }}"
