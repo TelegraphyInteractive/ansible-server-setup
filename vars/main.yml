@@ -13,3 +13,9 @@
 
   # for rails
   rails_master_key: "{{ vault_rails_master_key }}"
+
+  # for letsencrypt
+  letsencrypt_account_email: "{{ vault_letsencrypt_account_email }}"
+
+  # for nginx role, site template
+  site_root: "perla-uy/current/public"

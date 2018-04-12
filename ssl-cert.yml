@@ -2,6 +2,11 @@
   apt:
     pkg: python-certbot-nginx
 
+- name: register certbot
+  shell:
+    cmd: certbot register -n --agree-tos -m "{{ letsencrypt_account_email }}"
+    creates: /etc/letsencrypt/accounts
+
 - name: stop nginx server
   service:
     name: nginx
