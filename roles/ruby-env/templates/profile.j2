@@ -1,0 +1,5 @@
+# .profile template installed by ansible
+export RAILS_ENV="production"
+export RAILS_MASTER_KEY="{{ rails_master_key }}"
+export PATH="/home/dclo/.rbenv/bin:${PATH}"
+eval "$(rbenv init -)"

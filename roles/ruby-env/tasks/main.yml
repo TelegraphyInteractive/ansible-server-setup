@@ -9,19 +9,29 @@
 - name: Create bash_profile
   blockinfile:
     content: |
-      [[ -f .profile ]] && source .profile
-      [[ -f .bashrc ]] && source .bashrc
+      if [ -n "$BASH_VERSION" ]; then
+        if [ -f "$HOME/.bashrc" ]; then
+          . "$HOME/.bashrc"
+        fi
+      fi
     marker: '# {mark} PROFILE configured by Ansible'
     create: yes
     path: ~/.bash_profile
 
-- name: Add rbenv to path
+- name: Configure environment in .profile
+  template:
+    src: profile.j2
+    dest: "$HOME/.profile"
+
+- name: Include profile in bashrc
   blockinfile:
     content: |
-      export PATH="/home/dclo/.rbenv/bin:${PATH}"
-      eval "$(rbenv init -)"
-    marker: '# {mark} RBENV configured by Ansible'
+      if [ -f "$HOME/.profile" ]; then
+        . "$HOME/.profile"
+      fi
+    marker: '# {mark} configured by Ansible'
     path: ~/.bashrc
+    insertbefore: BOF
 
 - name: Create plugins directory for rbenv
   shell: mkdir ~/.rbenv/plugins
