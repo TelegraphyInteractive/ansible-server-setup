@@ -13,6 +13,7 @@
       - libyaml-dev
       - libxml2-dev
       - libxslt-dev
+      - libmysql++-dev
       - autoconf
       - automake
       - libtool
