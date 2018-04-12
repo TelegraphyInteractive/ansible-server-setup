@@ -31,10 +31,8 @@
         become: true
         include_role:
           name: security-setup
-      - name: install packages
+      - include_tasks: "install-packages.yml"
         become: true
-        include_role:
-          name: install-packages
       - name: install ruby
         include_role:
           name: ruby-env
