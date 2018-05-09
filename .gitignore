@@ -1,2 +1,5 @@
 .vault_pass
 site.retry
+staging
+ansible.cfg
+vars/vault.yml
