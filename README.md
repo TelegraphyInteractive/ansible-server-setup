@@ -20,13 +20,12 @@ It:
 ## Usage
 
 1. Clone the repository. You want to include submodules. The following clones
-to a subdirectory named "ansible":
-```
-git clone --recurse-submodules git@github.com:TelegraphyInteractive/ansible-server-setup.git ansible
-```
-From here on we refer to this `ansible` directory,
-where we cloned the project, as "*the root*".
-
+    to a subdirectory named "ansible":
+    ```
+    git clone --recurse-submodules git@github.com:TelegraphyInteractive/ansible-server-setup.git ansible
+    ```
+    From here on we refer to this `ansible` directory,
+    where we cloned the project, as "*the root*".
 1. Switch to *the root* to complete all of the following, e.g. `cd ansible`.
 1. Make yourself an inventory file, e.g. `staging`.
     (You give it the name you want.)
