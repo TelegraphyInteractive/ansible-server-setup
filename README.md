@@ -54,5 +54,46 @@ Sample contents of `ansible/ansible.cfg`:
 inventory = staging
 vault_password_file = .vault_pass
 ```
+1. Make yourself a vault of secret settings:
+`ansible-vault create vars/vault.yml`
+The playbook expects this file name. (See the `include` directive at the
+top of `site.yml`) The contents of the file are something like:
+```
+---
+  # initial root password whose login will be disabled
+  vault_root_password: kO9pkIkmO6uBAopFp7OQGBElSYn5lPFAnfaCSG
+
+  # locked down ssh user, port
+  vault_devops_ssh_user: devious
+  vault_devops_ssh_port: 22898
+
+  # These for the mysql role. See the doc's for that
+  vault_mysql_root_password: t36WlQAyr7j508OIi9p4wZDOtbkneYBIcmqLiI
+  vault_mysql_databases:
+  - name: appdb
+    encoding: utf8mb4
+    collation: utf8mb4_general_ci
+  mysql_users:
+  - name: "{{ vault_devops_ssh_user }}"
+    password: "{{ vault_mysql_root_password }}"
+    priv: "{{ vault_devops_ssh_user }}.*:ALL"
+  - name: rails
+    password: 96xK7Q57bna3yH6dIDoQhOUkYMsbEeZbzTxKcg
+    priv: "rails.*:INSERT,ALTER,CREATE,DELETE,DROP,INDEX,SELECT,UPDATE"
+  - name: backup
+    password: IUeIILc8VWQTUvgIgfYBd6XPltbrFdZptKXGRN
+    priv: "backup.*:SELECT,LOCK TABLES"
+
+  # for rails
+  vault_rails_master_key: P8lqsUJKUOGmogNrjKDEyMXNx4seubJ2ipTuWK
+
+  # for nginx role, site template
+  site_root: "app_name/current/public"
+
+  vault_letsencrypt_account_email: "admin@mysite.com"
+```
+Note: This can be improved. The database settings should be opinionated in
+`vars/main.yml` and then unstructured - just `name: value` pairs
+like the rest.
 
 _work in progress_
