@@ -57,3 +57,13 @@
     creates: ~/.setup.rbenv.timestamp
     chdir: ~
 
+- name: Install npm registry
+  shell: 'curl -sL https://deb.nodesource.com/setup_8.x | bash -'
+
+- name: Install npm
+  apt:
+    name: apt-transport-https
+
+- name: Install yarn
+  shell: 'npm --global install yarn'
+
