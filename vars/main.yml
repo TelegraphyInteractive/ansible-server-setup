@@ -34,5 +34,5 @@
   letsencrypt_account_email: "{{ vault_letsencrypt_account_email }}"
 
   # for nginx role, site template
-  site_root: "perla-uy/current/public"
+  site_root: "{{ vault_devops_ssh_user }}/current/public"
 
