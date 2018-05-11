@@ -1,0 +1,16 @@
+---
+# all of these commands require sudo
+# caller must set `become: true`
+
+- name: Install key for yarn
+  apt_key:
+    url: https://dl.yarnpkg.com/debian/pubkey.gpg
+
+- name: Add apt repository for yarn
+  apt_repository:
+    repo: deb https://dl.yarnpkg.com/debian/ stable main
+
+- name: Install yarn
+  apt:
+    name: yarn
+    update_cache: yes

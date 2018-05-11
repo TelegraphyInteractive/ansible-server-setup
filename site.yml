@@ -39,6 +39,8 @@
           nodejs_version: "10.x"
         include_role:
           name: nodejs
+      - include_tasks: "install-yarn.yml"
+        become: true
       - name: install ruby
         include_role:
           name: ruby-env
