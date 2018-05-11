@@ -6,10 +6,26 @@
   devops_ssh_user: "{{ vault_devops_ssh_user }}"
   devops_ssh_port: "{{ vault_devops_ssh_port }}"
 
-  # These for the mysql role. See the doc's for that
+  # These for the mysql role. For more information, see
+  # https://github.com/TelegraphyInteractive/ansible-role-mysql
   mysql_root_password: "{{ vault_mysql_root_password }}"
-  mysql_databases: "{{ vault_mysql_databases }}"
-  mysql_users: "{{ vault_mysql_users }}"
+  mysql_user_home: "/home/{{ vault_devops_ssh_user }}"
+  mysql_user_name: "{{ vault_devops_ssh_user }}"
+  mysql_user_password: "{{ vault_mysql_root_password }}"
+  mysql_databases:
+  - name: "{{ vault_app_database_name }}"
+    encoding: utf8mb4
+    collation: utf8mb4_general_ci
+  mysql_users:
+  - name: "{{ vault_devops_ssh_user }}"
+    password: "{{ vault_mysql_root_password }}"
+    priv: "{{ vault_app_database_name }}.*:ALL"
+  - name: rails
+    password: "{{ vault_db_rails_password }}"
+    priv: "{{ vault_app_database_name }}.*:INSERT,ALTER,CREATE,DELETE,DROP,INDEX,SELECT,UPDATE"
+  - name: backup
+    password: "{{ vault_db_backup_password }}"
+    priv: "{{ vault_app_database_name }}.*:SELECT,LOCK TABLES"
 
   # for rails
   rails_master_key: "{{ vault_rails_master_key }}"
@@ -19,3 +35,4 @@
 
   # for nginx role, site template
   site_root: "perla-uy/current/public"
+
